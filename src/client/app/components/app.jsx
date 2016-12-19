@@ -1,13 +1,14 @@
 import React, { Component } from 'react';
 import { render } from 'react-dom';
 import axios from 'axios';
+import Preview from './preview.jsx';
 
 class App extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       artistName: '',
-      usableData: []
+      trackInfo: []
     };
 
     this.newSearch = this.newSearch.bind(this);
@@ -31,8 +32,7 @@ class App extends React.Component {
           .then(res => {
             const trackArray = res.data.tracks;
             const data = this.convertToUsableData(trackArray);
-            this.setState({usableData: data});
-            console.log(this.state);
+            this.setState({trackInfo: data});
           })
       })
   }
@@ -50,8 +50,10 @@ class App extends React.Component {
 
 
   render() {
-    const { usableData } = this.state;
-
+    const { trackInfo } = this.state;
+    const tracks = trackInfo.map((track, i) => (
+      <Preview key={i} imageUrl={track.imageUrl} spotUrl={track.spotUrl} name={track.name} previewUrl={track.preview}/>
+    ));
 
     return (
       <div id="main">
@@ -63,7 +65,9 @@ class App extends React.Component {
           <input type="submit" value="Search" />
         </form>
 
-        
+        <div id="content-area">
+          {tracks}
+        </div>
       </div>
     );
   }
