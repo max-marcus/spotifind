@@ -1,49 +1,37 @@
-var webpack = require('webpack');
 var path = require('path');
+var webpack = require('webpack');
 
 var BUILD = path.resolve(__dirname, 'src/client/public');
 var CLIENT = path.resolve(__dirname, 'src/client/app')
 
 module.exports = {
   entry: [
-    CLIENT + '/app.jsx',
-    'webpack/hot/dev-server'
+    'webpack-dev-server/client?http://localhost:8080',
+    'webpack/hot/only-dev-server',
+    CLIENT + '/components/index.js',
     ],
-
   output: {
     path: BUILD,
-    publicPath: '/client/public',
-    filename: 'bundle.js'
+    filename: 'bundle.js',
+    publicPath: '/public/'
   },
+  plugins: [
+    new webpack.HotModuleReplacementPlugin(),
+    new webpack.NoErrorsPlugin()
+  ],
   devServer: {
-      colors: true,
-      historyApiFallback: true,
-      inline: true,
       hot: true,
-      contentBase: './src/client',
-      port: 8080
+      port: 8080,
+      contentBase: './src/client'
   },
   module: {
     loaders: [
       {
       test: /\.jsx?$/,
       exclude: /node_modules/,
-      loader: 'babel',
-      query: {
-        // cacheDirectory: 'babel_cache',
-        presets: ['es2015', 'react']
+      loaders: ['react-hot', 'babel?presets[]=es2015,presets[]=react'],
+      include: path.join(__dirname, 'src')
       }
-    }
     ]
-  },
-  resolve: {
-    extensions: ['', '.js', '.jsx']
-  },
-  plugins: [
-    new webpack.DefinePlugin({
-      'process.env.NODE_ENV': JSON.stringify(process.env.NODE_ENV)
-    }),
-    new webpack.HotModuleReplacementPlugin()
-  ],
-  // devtool: 'source-map',
+  }
 };
