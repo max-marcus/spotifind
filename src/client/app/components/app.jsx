@@ -9,7 +9,8 @@ class App extends React.Component {
     this.state = {
       artistName: '',
       trackInfo: [],
-      audioUrl: null
+      audioUrl: null,
+      audioObj: null
     };
 
     this.newSearch = this.newSearch.bind(this);
@@ -28,22 +29,25 @@ class App extends React.Component {
 
   playPreview(url) {
     const audioObject = new Audio(url);
+    const curAudio = this.state.audioObj;
     if (this.state.audioUrl === null) {
       audioObject.play();
-      this.setState({ audioUrl: url })
+      this.setState({ audioUrl: url, audioObj: audioObject })
     }
     else if (this.state.audioUrl === url) {
-      audioObject.pause();
+      curAudio.pause();
+    } else if (this.state.audioUrl !== url) {
+      curAudio.pause();
+      audioObject.play();
+      this.setState({ audioUrl: url, audioObj: audioObject })
     }
     // else if (this.state.audio ===)
     audioObject.addEventListener('ended', () => {
-      console.log(this.state.audioUrl);
-      this.setState({ audioUrl: null })
-      console.log('ended: ', this.state.audioUrl);
+      this.setState({ audioUrl: null, audioObj: null })
     });
     audioObject.addEventListener('pause', () => {
-      this.setState({ audioUrl: null })
-      console.log('paused: ', this.state.audioUrl);
+      console.log('prepause: ', this.state.audioUrl);
+      this.setState({ audioUrl: null, audioObj: null })
     });
     
   }
