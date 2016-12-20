@@ -1,5 +1,9 @@
-#search-form {
+body {
+  text-align: center;
+}
 
+#search-box {
+  margin-right: 5px;
 }
 
 #content-area {
@@ -19,8 +23,13 @@
   width: 150px;
 }
 
+.track-container:hover {
+  cursor: pointer;
+}
+
 #art {
   width: 100px;
+  margin: 5px 0;
 }
 
 #spotlink {
