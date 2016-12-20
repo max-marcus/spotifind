@@ -1,5 +1,7 @@
 body {
   text-align: center;
+  background-color: cadetblue;
+  width: 100%
 }
 
 #search-box {
@@ -9,8 +11,10 @@ body {
 #content-area {
   display: flex;
   flex-flow: row wrap;
-  width: 500px;
-  align-content: flex-start;
+  width: 95%;
+  max-width: 1100px;
+  justify-content: center;
+  margin: 0 auto;
 }
 
 .track-container {

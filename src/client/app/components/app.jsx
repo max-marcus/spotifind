@@ -33,9 +33,9 @@ class App extends React.Component {
     if (this.state.audioUrl === null) {
       audioObject.play();
       this.setState({ audioUrl: url, audioObj: audioObject })
-    }
-    else if (this.state.audioUrl === url) {
-      curAudio.pause();
+    } else if (this.state.audioUrl === url) {
+      if (!curAudio.paused) curAudio.pause();
+      else curAudio.play();
     } else if (this.state.audioUrl !== url) {
       curAudio.pause();
       audioObject.play();
@@ -45,10 +45,10 @@ class App extends React.Component {
     audioObject.addEventListener('ended', () => {
       this.setState({ audioUrl: null, audioObj: null })
     });
-    audioObject.addEventListener('pause', () => {
-      console.log('prepause: ', this.state.audioUrl);
-      this.setState({ audioUrl: null, audioObj: null })
-    });
+    // audioObject.addEventListener('pause', () => {
+    //   console.log('prepause: ', this.state.audioUrl);
+    //   this.setState({ audioUrl: null, audioObj: null })
+    // });
     
   }
 
