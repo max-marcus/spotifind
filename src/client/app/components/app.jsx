@@ -14,8 +14,7 @@ class App extends React.Component {
       trackInfo: [],
       audioUrl: null,
       audioObj: null,
-      targetArtist: '',
-      events: []
+      events: null
     };
 
     this.newSearch = this.newSearch.bind(this);
@@ -32,7 +31,19 @@ class App extends React.Component {
     event.preventDefault();
     const artist = this.state.artistName;
     const tracks = this.getTrackArray(artist);
-    this.setState({targetArtist: artist})
+    this.setState({ targetArtist: artist, events: null })
+  }
+
+  getEvents(event) {
+    const artistName = this.state.artistName
+      jsonp(`http://api.bandsintown.com/artists/${artistName}/events.json?api_version=2.0&app_id=spotifind`, null, (err, data) => {
+        if (err) {
+          console.log(err.message);
+        } else {
+          const eventData = this.convertEventData(data);
+          this.setState({ events: eventData })
+        }
+      })
   }
 
   playPreview(url) {
@@ -68,18 +79,6 @@ class App extends React.Component {
       })
   }
 
-  getEvents(artistName) {
-    jsonp(`http://api.bandsintown.com/artists/${artistName}/events.json?api_version=2.0&app_id=YOUR_APP_ID`, null, (err, data) => {
-      if (err) {
-        console.log(err.message);
-      } else {
-        const eventData = this.convertEventData(data);
-        this.setState({ events: eventData })
-        console.log(eventData);
-      }
-    })
-  }
-
   convertToUsableTrackData(array) {
     return array.map((track, i, array) => {
       return i = {
@@ -113,12 +112,16 @@ class App extends React.Component {
       <EventButton artist={this.state.targetArtist} getEvents={this.getEvents} />
     );
 
+    let eventHeader;
+    if (events === null) eventHeader = <h3></h3>
+    else eventHeader = <h3>Upcoming Events</h3>
+
     let eventItems;
-    if (events.length < 1) {
+    if (Array.isArray(events) && events.length < 1) {
       eventItems = (
         <div id="no-events">Bummer, {this.state.targetArtist} has not announced any upcoming shows</div>
       )
-    } else {
+    } else if (Array.isArray(events)) {
       eventItems = events.map((event, i) => (
         <EventItem key={i} title={event.title} date={event.date} avail={event.avail} tix={event.tixUrl} />
       ))
@@ -134,13 +137,15 @@ class App extends React.Component {
           </label>
           <input type="submit" value="Search" />
         </form>
+        {eventButton}
 
         <div id="track-area">
           {tracks}
         </div>
-        {eventButton}
+        <br/>
+        {eventHeader}
         <div id="event-area">
-        {eventItems}
+          {eventItems}
         </div>
       </div>
     );

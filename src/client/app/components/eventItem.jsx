@@ -4,9 +4,9 @@ const EventItem = (props) => {
   const { title, date, avail, tix } = props;
 
   let tickets;
-  if ({avail} === "available") {
+  if (avail === "available") {
     tickets = (
-      <a href={tix}>Get tickets!</a>
+      <a href={tix}>Buy Tickets</a>
     )
   } else {
     tickets = (
@@ -16,8 +16,10 @@ const EventItem = (props) => {
 
   return (
     <div className="event-container">
-      <div id="event-title">{title}</div>
-      <div id="event-date">{date}</div>
+      <div id="event-text-area">
+        <div id="event-title">{title}</div>
+        <div id="event-date">{date}</div>
+      </div>
       <div id="tix">{tickets}</div>
     </div>
   )

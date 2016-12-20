@@ -4,7 +4,7 @@ const EventButton = (props) => {
   const { artist, getEvents } = props;
 
   return (
-    <input type="submit" value="Get Events For This Artist" id="event-btn" onClick={() => {getEvents(artist)}} />
+    <input type="submit" value="Like this artist? See their upcoming shows!" id="event-btn" onClick={() => {getEvents(artist)}} />
   )
 }
 
