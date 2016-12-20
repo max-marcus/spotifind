@@ -8,7 +8,7 @@ body {
   margin-right: 5px;
 }
 
-#content-area {
+#track-area {
   display: flex;
   flex-flow: row wrap;
   width: 95%;
