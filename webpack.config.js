@@ -8,7 +8,7 @@ module.exports = {
   entry: [
     'webpack-dev-server/client?http://localhost:8080',
     'webpack/hot/only-dev-server',
-    CLIENT + '/components/index.js',
+    CLIENT + '/components/index.jsx',
     ],
   output: {
     path: BUILD,
@@ -27,10 +27,14 @@ module.exports = {
   module: {
     loaders: [
       {
-      test: /\.jsx?$/,
-      exclude: /node_modules/,
-      loaders: ['react-hot', 'babel?presets[]=es2015,presets[]=react'],
-      include: path.join(__dirname, 'src')
+        test: /\.jsx?$/,
+        exclude: /node_modules/,
+        loaders: ['react-hot', 'babel?presets[]=es2015,presets[]=react'],
+        include: path.join(__dirname, 'src')
+      },
+      {
+        test: /\.css$/,
+        loader: 'style-loader!css-loader'
       }
     ]
   }
