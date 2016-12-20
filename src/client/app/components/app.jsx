@@ -41,14 +41,9 @@ class App extends React.Component {
       audioObject.play();
       this.setState({ audioUrl: url, audioObj: audioObject })
     }
-    // else if (this.state.audio ===)
     audioObject.addEventListener('ended', () => {
       this.setState({ audioUrl: null, audioObj: null })
     });
-    // audioObject.addEventListener('pause', () => {
-    //   console.log('prepause: ', this.state.audioUrl);
-    //   this.setState({ audioUrl: null, audioObj: null })
-    // });
     
   }
 

@@ -65,7 +65,7 @@
 /******/ 	}
 /******/ 	
 /******/ 	var hotApplyOnUpdate = true;
-/******/ 	var hotCurrentHash = "eed6f7c982a784d15c7f"; // eslint-disable-line no-unused-vars
+/******/ 	var hotCurrentHash = "901b55abb65fc7dff709"; // eslint-disable-line no-unused-vars
 /******/ 	var hotCurrentModuleData = {};
 /******/ 	var hotCurrentParents = []; // eslint-disable-line no-unused-vars
 /******/ 	
@@ -30486,11 +30486,14 @@
 
 	    _this.state = {
 	      artistName: '',
-	      trackInfo: []
+	      trackInfo: [],
+	      audioUrl: null,
+	      audioObj: null
 	    };
 
 	    _this.newSearch = _this.newSearch.bind(_this);
 	    _this.newArtist = _this.newArtist.bind(_this);
+	    _this.playPreview = _this.playPreview.bind(_this);
 	    return _this;
 	  }
 
@@ -30506,16 +30509,37 @@
 	      var tracks = this.getTrackArray(this.state.artistName);
 	    }
 	  }, {
+	    key: 'playPreview',
+	    value: function playPreview(url) {
+	      var _this2 = this;
+
+	      var audioObject = new Audio(url);
+	      var curAudio = this.state.audioObj;
+	      if (this.state.audioUrl === null) {
+	        audioObject.play();
+	        this.setState({ audioUrl: url, audioObj: audioObject });
+	      } else if (this.state.audioUrl === url) {
+	        if (!curAudio.paused) curAudio.pause();else curAudio.play();
+	      } else if (this.state.audioUrl !== url) {
+	        curAudio.pause();
+	        audioObject.play();
+	        this.setState({ audioUrl: url, audioObj: audioObject });
+	      }
+	      audioObject.addEventListener('ended', function () {
+	        _this2.setState({ audioUrl: null, audioObj: null });
+	      });
+	    }
+	  }, {
 	    key: 'getTrackArray',
 	    value: function getTrackArray(artistName) {
-	      var _this2 = this;
+	      var _this3 = this;
 
 	      _axios2.default.get('https://api.spotify.com/v1/search?q=' + artistName + '&type=artist').then(function (res) {
 	        var id = res.data.artists.items[0].id;
 	        _axios2.default.get('https://api.spotify.com/v1/artists/' + id + '/top-tracks?country=US').then(function (res) {
 	          var trackArray = res.data.tracks;
-	          var data = _this2.convertToUsableData(trackArray);
-	          _this2.setState({ trackInfo: data });
+	          var data = _this3.convertToUsableData(trackArray);
+	          _this3.setState({ trackInfo: data });
 	        });
 	      });
 	    }
@@ -30534,10 +30558,12 @@
 	  }, {
 	    key: 'render',
 	    value: function render() {
+	      var _this4 = this;
+
 	      var trackInfo = this.state.trackInfo;
 
 	      var tracks = trackInfo.map(function (track, i) {
-	        return _react2.default.createElement(_preview2.default, { key: i, imageUrl: track.imageUrl, spotUrl: track.spotUrl, name: track.name, previewUrl: track.preview });
+	        return _react2.default.createElement(_preview2.default, { key: i, imageUrl: track.imageUrl, spotUrl: track.spotUrl, name: track.name, previewUrl: track.preview, playPreview: _this4.playPreview });
 	      });
 
 	      return _react2.default.createElement(
@@ -30549,8 +30575,9 @@
 	          _react2.default.createElement(
 	            'label',
 	            null,
-	            'Search for an artist:',
-	            _react2.default.createElement('input', { type: 'text', value: this.state.artistName, onChange: this.newArtist })
+	            'SEARCH FOR AN ARTIST:',
+	            _react2.default.createElement('br', null),
+	            _react2.default.createElement('input', { id: 'search-box', type: 'text', value: this.state.artistName, onChange: this.newArtist })
 	          ),
 	          _react2.default.createElement('input', { type: 'submit', value: 'Search' })
 	        ),
@@ -32082,14 +32109,17 @@
 	  var imageUrl = props.imageUrl,
 	      spotUrl = props.spotUrl,
 	      name = props.name,
-	      previewUrl = props.previewUrl;
+	      previewUrl = props.previewUrl,
+	      playPreview = props.playPreview;
 
 
 	  return _react2.default.createElement(
 	    "div",
-	    { className: "track-container" },
+	    { className: "track-container", onClick: function onClick() {
+	        playPreview(previewUrl);
+	      } },
 	    name,
-	    _react2.default.createElement("img", { id: "art", src: imageUrl }),
+	    _react2.default.createElement("img", { id: "art", src: imageUrl, alt: "album art" }),
 	    _react2.default.createElement(
 	      "a",
 	      { id: "spotlink", href: spotUrl },
@@ -32265,7 +32295,7 @@
 
 
 	// module
-	exports.push([module.id, "#search-form {\n\n}\n\n#content-area {\n  display: flex;\n  flex-flow: row wrap;\n  width: 500px;\n  align-content: flex-start;\n}\n\n.track-container {\n  display: flex;\n  flex-direction: column;\n  align-items: center;\n  justify-content: flex-end;\n  text-align: center;\n  margin: 20px;\n  width: 150px;\n}\n\n#art {\n  width: 100px;\n}\n\n#spotlink {\n  font-size: 12px;\n}", ""]);
+	exports.push([module.id, "body {\n  text-align: center;\n  width: 100%;\n  background-color: cadetblue;\n}\n\n#search-box {\n  margin-right: 5px;\n}\n\n#content-area {\n  display: flex;\n  flex-flow: row wrap;\n  width: 95%;\n  max-width: 1100px;\n  max-height: 350px;\n  justify-content: center;\n  margin: 0 auto;\n}\n\n.track-container {\n  display: flex;\n  flex-direction: column;\n  align-items: center;\n  justify-content: flex-end;\n  text-align: center;\n  margin: 20px;\n  width: 150px;\n}\n\n.track-container:hover {\n  cursor: pointer;\n}\n\n#art {\n  width: 100px;\n  margin: 5px 0;\n}\n\n#spotlink {\n  font-size: 12px;\n}", ""]);
 
 	// exports
 
