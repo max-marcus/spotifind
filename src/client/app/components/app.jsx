@@ -1,7 +1,10 @@
 import React, { Component } from 'react';
 import { render } from 'react-dom';
 import axios from 'axios';
+import jsonp from 'jsonp';
 import Preview from './preview.jsx';
+import EventButton from './eventbutton.jsx';
+import EventItem from './eventItem.jsx';
 
 class App extends React.Component {
   constructor(props) {
@@ -10,12 +13,14 @@ class App extends React.Component {
       artistName: '',
       trackInfo: [],
       audioUrl: null,
-      audioObj: null
+      audioObj: null,
+      events: null
     };
 
     this.newSearch = this.newSearch.bind(this);
     this.newArtist = this.newArtist.bind(this);
     this.playPreview = this.playPreview.bind(this);
+    this.getEvents = this.getEvents.bind(this);
   }
 
   newArtist(event) {
@@ -24,7 +29,21 @@ class App extends React.Component {
 
   newSearch(event) {
     event.preventDefault();
-    const tracks = this.getTrackArray(this.state.artistName);
+    const artist = this.state.artistName;
+    const tracks = this.getTrackArray(artist);
+    this.setState({ targetArtist: artist, events: null })
+  }
+
+  getEvents(event) {
+    const artistName = this.state.artistName
+      jsonp(`http://api.bandsintown.com/artists/${artistName}/events.json?api_version=2.0&app_id=spotifind`, null, (err, data) => {
+        if (err) {
+          console.log(err.message);
+        } else {
+          const eventData = this.convertEventData(data);
+          this.setState({ events: eventData })
+        }
+      })
   }
 
   playPreview(url) {
@@ -54,13 +73,13 @@ class App extends React.Component {
         axios.get(`https://api.spotify.com/v1/artists/${id}/top-tracks?country=US`)
           .then(res => {
             const trackArray = res.data.tracks;
-            const data = this.convertToUsableData(trackArray);
+            const data = this.convertToUsableTrackData(trackArray);
             this.setState({ trackInfo: data });
           })
       })
   }
 
-  convertToUsableData(array) {
+  convertToUsableTrackData(array) {
     return array.map((track, i, array) => {
       return i = {
         imageUrl: track.album.images[0].url,
@@ -71,12 +90,42 @@ class App extends React.Component {
     });
   }
 
+  convertEventData(array) {
+    return array.map((event, i, array) => {
+      return i = {
+        title: event.title,
+        date: event['formatted_datetime'],
+        avail: event['ticket_status'],
+        tixUrl: event['ticket_url']
+      }
+    })
+  }
+
 
   render() {
-    const { trackInfo } = this.state;
+    const { trackInfo, events } = this.state;
     const tracks = trackInfo.map((track, i) => (
       <Preview key={i} imageUrl={track.imageUrl} spotUrl={track.spotUrl} name={track.name} previewUrl={track.preview} playPreview={this.playPreview} />
     ));
+
+    const eventButton = (
+      <EventButton artist={this.state.targetArtist} getEvents={this.getEvents} />
+    );
+
+    let eventHeader;
+    if (events === null) eventHeader = <h3></h3>
+    else eventHeader = <h3>Upcoming Events</h3>
+
+    let eventItems;
+    if (Array.isArray(events) && events.length < 1) {
+      eventItems = (
+        <div id="no-events">Bummer, {this.state.targetArtist} has not announced any upcoming shows</div>
+      )
+    } else if (Array.isArray(events)) {
+      eventItems = events.map((event, i) => (
+        <EventItem key={i} title={event.title} date={event.date} avail={event.avail} tix={event.tixUrl} />
+      ))
+    }
 
     return (
       <div id="main">
@@ -88,9 +137,15 @@ class App extends React.Component {
           </label>
           <input type="submit" value="Search" />
         </form>
+        {eventButton}
 
-        <div id="content-area">
+        <div id="track-area">
           {tracks}
+        </div>
+        <br/>
+        {eventHeader}
+        <div id="event-area">
+          {eventItems}
         </div>
       </div>
     );
