@@ -40,6 +40,10 @@ h3 {
   border: 0;
 }
 
+#submit-btn:hover {
+  cursor: pointer;
+}
+
 #event-btn {
   display: block;
   color: white;
@@ -53,6 +57,10 @@ h3 {
   -webkit-appearance: none;
   outline: 0;
   border: 0;
+}
+
+#event-btn:hover {
+  cursor: pointer;
 }
 
 #track-area {
