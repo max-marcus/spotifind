@@ -129,15 +129,17 @@ class App extends React.Component {
 
     return (
       <div id="main">
-        <form id="search-form" onSubmit={this.newSearch}>
-          <label>
-            SEARCH FOR AN ARTIST:
-            <br/>
-            <input id="search-box" type="text" value={this.state.artistName} onChange={this.newArtist} />
-          </label>
-          <input type="submit" value="Search" />
-        </form>
-        {eventButton}
+        <div id="top-bar">
+          <h1>Spotifind</h1>
+          <form id="search-form" onSubmit={this.newSearch}>
+            <label>
+              SEARCH FOR AN ARTIST: 
+              <input id="search-box" type="text" value={this.state.artistName} onChange={this.newArtist} />
+            </label>
+            <input id="submit-btn" type="submit" value="Search" />
+          </form>
+          {eventButton}
+        </div>
 
         <div id="track-area">
           {tracks}
