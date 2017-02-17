@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
 import axios from 'axios';
 import jsonp from 'jsonp';
-import Preview from './preview';
-import EventButton from './eventbutton';
-import EventItem from './eventItem';
+import Preview from './preview.jsx';
+import EventButton from './eventbutton.jsx';
+import EventItem from './eventItem.jsx';
 
 class App extends Component {
   constructor(props) {
