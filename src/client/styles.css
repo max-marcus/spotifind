@@ -1,7 +1,7 @@
 body {
   text-align: center;
   width: 99%;
-  background-color: #2196F3;
+  background-color: #CFD8DC;
   font-family: 'Roboto', sans-serif;
   font-weight: 300
 }
@@ -14,8 +14,53 @@ h3 {
   margin-top: 7px;
 }
 
+#top-bar {
+  margin-top: 20px;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  align-items: center;
+}
+
 #search-box {
-  margin-right: 5px;
+  margin: 0 10px;
+}
+
+#submit-btn {
+  color: white;
+  padding: 4px 10px;
+  text-align: center;
+  text-transform: uppercase;
+  text-decoration: none;
+  background-color: #311B92;
+  border-radius: 3px;
+  font-size: 10px;
+  -webkit-appearance: none;
+  outline: 0;
+  border: 0;
+}
+
+#submit-btn:hover {
+  cursor: pointer;
+}
+
+#event-btn {
+  display: block;
+  color: white;
+  padding: 5px 10px;
+  text-align: center;
+  text-transform: uppercase;
+  text-decoration: none;
+  background-color: #311B92;
+  border-radius: 3px;
+  font-size: 12px;
+  -webkit-appearance: none;
+  outline: 0;
+  border: 0;
+}
+
+#event-btn:hover {
+  cursor: pointer;
 }
 
 #track-area {
@@ -25,18 +70,23 @@ h3 {
   max-width: 1100px;
   max-height: 400px;
   justify-content: center;
-  margin: 2px auto 2px auto;
+  margin: 10px auto 2px auto;
   overflow-y: scroll;
 }
 
 .track-container {
   display: flex;
-  flex-direction: row wrap;
+  flex-direction: column;
   align-items: center;
   justify-content: flex-end;
   text-align: center;
-  margin: 10px 20px;
+  margin: 0 20px 10px 20px;
   width: 150px;
+  min-height: 190px;
+}
+
+.track-container a {
+  color: #673AB7
 }
 
 .track-container:hover {
@@ -54,7 +104,7 @@ h3 {
 }
 
 #art:hover {
-  box-shadow: 0 8px 15px rgba(0, 0, 0, 0.5)
+  box-shadow: 0 8px 10px rgba(0, 0, 0, 0.5)
 }
 
 #spotlink {
@@ -74,9 +124,11 @@ h3 {
 
 .event-container {
   width: 500px;
-  border: 1px solid #FFCC80;
-  color: #BBDEFB;
-  background-color: #0D47A1;
+  border: 1px solid #CFD8DC;
+  color: #EDE7F6;
+  background-color: #673AB7;
+  font-size: 14px;
+  padding: 7px;
 }
 
 .event-container a {
@@ -86,4 +138,19 @@ h3 {
 
 #tix {
   color: black;
+  margin-top: 5px;
+}
+
+#tix a {
+  display: block;
+  width: 120px;
+  color: white;
+  padding: 5px 1px;
+  text-align: center;
+  text-transform: uppercase;
+  text-decoration: none;
+  margin: 5px auto;
+  background-color: #311B92;
+  border-radius: 2px;
+  font-size: 12px;
 }
