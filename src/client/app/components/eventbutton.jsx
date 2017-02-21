@@ -14,8 +14,8 @@ const EventButton = (props) => {
 };
 
 EventButton.propTypes = {
-  artist: React.PropTypes.string,
-  getEvents: React.PropTypes.func,
+  artist: React.PropTypes.string.isRequired,
+  getEvents: React.PropTypes.func.isRequired,
 };
 
 export default EventButton;
