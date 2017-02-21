@@ -13,11 +13,11 @@ const Preview = (props) => {
 };
 
 Preview.propTypes = {
-  imageUrl: React.PropTypes.string,
-  spotUrl: React.PropTypes.string,
-  name: React.PropTypes.string,
-  previewUrl: React.PropTypes.string,
-  playPreview: React.PropTypes.string,
+  imageUrl: React.PropTypes.string.isRequired,
+  spotUrl: React.PropTypes.string.isRequired,
+  name: React.PropTypes.string.isRequired,
+  previewUrl: React.PropTypes.string.isRequired,
+  playPreview: React.PropTypes.string.isRequired,
 };
 
 export default Preview;

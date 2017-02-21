@@ -26,10 +26,10 @@ const EventItem = (props) => {
 };
 
 EventItem.propTypes = {
-  title: React.PropTypes.string,
-  date: React.PropTypes.string,
-  avail: React.PropTypes.string,
-  tix: React.PropTypes.string,
+  title: React.PropTypes.string.isRequired,
+  date: React.PropTypes.string.isRequired,
+  avail: React.PropTypes.string.isRequired,
+  tix: React.PropTypes.string.isRequired,
 };
 
 export default EventItem;

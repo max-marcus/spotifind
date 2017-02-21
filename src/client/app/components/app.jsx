@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
 import axios from 'axios';
 import jsonp from 'jsonp';
-import Preview from './preview.jsx';
-import EventButton from './eventbutton.jsx';
-import EventItem from './eventItem.jsx';
+import Preview from './preview';
+import EventButton from './eventbutton';
+import EventItem from './eventItem';
 
 class App extends Component {
   constructor(props) {
@@ -73,29 +73,31 @@ class App extends Component {
   newSearch(event) {
     event.preventDefault();
     const artist = this.state.artistName;
-    const tracks = this.getTrackArray(artist);
+    this.getTrackArray(artist);
     this.setState({ targetArtist: artist, events: null });
   }
 
   convertToUsableTrackData(array) {
-    return array.map((track, i) => {
-      return i = {
+    return array.map((track) => {
+      const data = {
         imageUrl: track.album.images[0].url,
         spotUrl: track.external_urls.spotify,
         name: track.name,
         preview: track.preview_url,
       };
+      return data;
     });
   }
 
   convertEventData(array) {
-    return array.map((event, i) => {
-      return i = {
+    return array.map((event) => {
+      const data = {
         title: event.title,
         date: event.formatted_datetime,
         avail: event.ticket_status,
         tixUrl: event.ticket_url,
-      }
+      };
+      return data;
     });
   }
 
@@ -121,7 +123,7 @@ class App extends Component {
     );
 
     let eventHeader;
-    if (events === null) eventHeader = <h3></h3>;
+    if (events === null) eventHeader = <h3 />;
     else eventHeader = <h3>Upcoming Events</h3>;
 
     let eventItems;
