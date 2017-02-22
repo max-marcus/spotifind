@@ -102,9 +102,9 @@ class App extends Component {
 
   render() {
     const { trackInfo, events } = this.state;
-    const tracks = trackInfo.map((track, i) => (
+    const tracks = trackInfo.map(track => (
       <Preview
-        key={i}
+        key={track.spotUrl}
         imageUrl={track.imageUrl}
         spotUrl={track.spotUrl}
         name={track.name}
@@ -121,7 +121,7 @@ class App extends Component {
     );
 
     let eventHeader;
-    if (events === null) eventHeader = <h3 />;
+    if (events === null) eventHeader = <div />;
     else eventHeader = <h3>Upcoming Events</h3>;
 
     let eventItems;
