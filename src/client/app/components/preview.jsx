@@ -17,7 +17,7 @@ Preview.propTypes = {
   spotUrl: React.PropTypes.string.isRequired,
   name: React.PropTypes.string.isRequired,
   previewUrl: React.PropTypes.string.isRequired,
-  playPreview: React.PropTypes.string.isRequired,
+  playPreview: React.PropTypes.func.isRequired,
 };
 
 export default Preview;

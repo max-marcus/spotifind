@@ -14,7 +14,7 @@ const EventButton = (props) => {
 };
 
 EventButton.propTypes = {
-  artist: React.PropTypes.string.isRequired,
+  artist: React.PropTypes.string,
   getEvents: React.PropTypes.func.isRequired,
 };
 

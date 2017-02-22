@@ -1,9 +1,8 @@
 import React, { Component } from 'react';
 import axios from 'axios';
-import jsonp from 'jsonp';
-import Preview from './preview';
-import EventButton from './eventbutton';
-import EventItem from './eventItem';
+import Preview from './preview.jsx';
+import EventButton from './eventbutton.jsx';
+import EventItem from './eventItem.jsx';
 
 class App extends Component {
   constructor(props) {
@@ -24,26 +23,25 @@ class App extends Component {
 
   getEvents() {
     const artistName = this.state.artistName;
-    jsonp(`http://api.bandsintown.com/artists/${artistName}/events.json?api_version=2.0&app_id=spotifind`, null, (err, data) => {
-      if (err) {
-        console.log(err.message);
-      } else {
-        const eventData = this.convertEventData(data);
+    axios.get(`/getEvents?artist=${artistName}`)
+      .then((res) => {
+        const eventData = this.convertEventData(res.data);
         this.setState({ events: eventData });
-      }
-    });
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   }
 
   getTrackArray(artistName) {
-    axios.get(`https://api.spotify.com/v1/search?q=${artistName}&type=artist`)
+    axios.get(`/getTracks?artist=${artistName}`)
       .then((res) => {
-        const id = res.data.artists.items[0].id;
-        axios.get(`https://api.spotify.com/v1/artists/${id}/top-tracks?country=US`)
-          .then((thisRes) => {
-            const trackArray = thisRes.data.tracks;
-            const data = this.convertToUsableTrackData(trackArray);
-            this.setState({ trackInfo: data });
-          });
+        const trackArray = res.data.tracks;
+        const data = this.convertToUsableTrackData(trackArray);
+        this.setState({ trackInfo: data });
+      })
+      .catch((err) => {
+        console.log(err);
       });
   }
 
