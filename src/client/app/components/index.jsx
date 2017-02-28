@@ -6,5 +6,5 @@ import styles from './../../styles.css';
 
 render(
   <App />,
-  document.getElementById("root")
+  document.getElementById('root'),
 );
