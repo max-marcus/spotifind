@@ -1,25 +1,14 @@
 const express = require('express');
 const path = require('path');
 const pg = require('pg');
+const bodyParser = require('body-parser');
+const db = require('./database');
+const ArtistController = require('./controllers/ArtistController');
 
 const app = express();
 
-const Sequelize = require('sequelize');
-
-const sequelize = new Sequelize('postgres://OneLove:spotifind@localhost:5432/spotifind');
-
-const ArtistSearch = sequelize.define('artistSearch', {
-  artist: {
-    type: Sequelize.STRING,
-    field: 'artist_name'
-  }
-}, {
-  freezeTableName: true
-});
-
-ArtistSearch.sync({force: true}).then(() => {
-  console.log('database created')
-});
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: false }));
 
 app.get('/', (req, res) => {
   res.set({'Content-Type': 'text/html; charset=UTF-8'})
