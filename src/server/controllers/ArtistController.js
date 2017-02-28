@@ -1,7 +1,7 @@
 const Artists = require('./../models/ArtistModel');
 
 const ArtistController = {
-  update(req, res) {
+  update(req) {
     Artists.findOne({
       where: { name: req.body.name },
     })
@@ -16,13 +16,13 @@ const ArtistController = {
         const artistCount = artist.getDataValue('count');
         const newCount = artistCount + 1;
         artist.update({
-          count: artistCount,
+          count: newCount,
           spotifyData: req.body.spotify,
           bandsintownData: req.body.bit,
         });
       }
     });
-  }
-}
+  },
+};
 
 module.exports = ArtistController;
