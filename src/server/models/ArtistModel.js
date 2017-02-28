@@ -5,6 +5,7 @@ const Artists = sequelize.define('artists', {
   id: {
     type: Sequelize.INTEGER,
     primaryKey: true,
+    autoIncrement: true,
   },
   name: {
     type: Sequelize.STRING,
@@ -19,7 +20,7 @@ const Artists = sequelize.define('artists', {
   },
   bandsintownData: {
     type: Sequelize.TEXT,
-    field: 'bandsintownData',
+    field: 'bandsintown_data',
   },
 }, {
   freezeTableName: true,
