@@ -5,7 +5,10 @@ const APIController = {
     if (req.foundData.date) {
       const curDate = new Date().getTime();
       const foundDate = req.foundData.date.getTime();
-      if (curDate - foundDate < 86400000) return res.send(req.foundData.spotify);
+      if (curDate - foundDate < 86400000) {
+        res.send(req.foundData.spotify);
+        return next();
+      }
     }
     console.log('SPOTIFY API CALL');
     const artistName = req.query.artist;
@@ -27,7 +30,10 @@ const APIController = {
     if (req.foundData.date) {
       const curDate = new Date().getTime();
       const foundDate = req.foundData.date.getTime();
-      if (curDate - foundDate < 86400000 && req.foundData.bit) return res.send(req.foundData.bit);
+      if (curDate - foundDate < 86400000 && req.foundData.bit) {
+        res.send(req.foundData.bit);
+        return next();
+      }
     }
     console.log('BIT API CALL');
     const artistName = req.query.artist;
