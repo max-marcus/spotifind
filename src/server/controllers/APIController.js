@@ -2,6 +2,15 @@ const axios = require('axios');
 
 const APIController = {
   spotify(req, res, next) {
+    if (req.foundData.date) {
+      const curDate = new Date().getTime();
+      const foundDate = req.foundData.date.getTime();
+      if (curDate - foundDate < 86400000) {
+        res.send(req.foundData.spotify);
+        return next();
+      }
+    }
+    console.log('SPOTIFY API CALL');
     const artistName = req.query.artist;
     axios.get(`https://api.spotify.com/v1/search?q=${artistName}&type=artist`)
       .then((response) => {
@@ -18,6 +27,15 @@ const APIController = {
       .catch(err => console.log(err));
   },
   bandsintown(req, res, next) {
+    if (req.foundData.date) {
+      const curDate = new Date().getTime();
+      const foundDate = req.foundData.date.getTime();
+      if (curDate - foundDate < 86400000 && req.foundData.bit) {
+        res.send(req.foundData.bit);
+        return next();
+      }
+    }
+    console.log('BIT API CALL');
     const artistName = req.query.artist;
     axios.get(`http://api.bandsintown.com/artists/${artistName}/events.json?api_version=2.0&app_id=spotifind`)
       .then((response) => {
