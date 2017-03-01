@@ -29,9 +29,9 @@ app.get('/bundle.js', (req, res) => {
     .sendFile(path.join(__dirname, './../client/public/bundle.js'));
 });
 
-app.get('/getTracks', APIController.spotify, ArtistController.update);
+app.get('/getTracks', ArtistController.checkLast, APIController.spotify, ArtistController.update);
 
-app.get('/getEvents', APIController.bandsintown, ArtistController.bitupdate);
+app.get('/getEvents', ArtistController.checkLast, APIController.bandsintown, ArtistController.bitupdate);
 
 /* eslint-disable no-console */
 app.listen(3000, () => {

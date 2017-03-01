@@ -35,6 +35,22 @@ const ArtistController = {
     })
     .catch(err => console.log(err));
   },
+  checkLast(req, res, next) {
+    const artist = (req.query.artist).toLowerCase();
+    Artists.findOne({
+      where: { name: artist },
+    })
+    .then((found) => {
+      req.foundData = {};
+      if (!found) next();
+      else {
+        req.foundData.date = found.getDataValue('updatedAt');
+        req.foundData.spotify = found.getDataValue('spotifyData');
+        req.foundData.bit = found.getDataValue('bandsintownData');
+        next();
+      }
+    });
+  },
 };
 
 module.exports = ArtistController;
