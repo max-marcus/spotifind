@@ -9,20 +9,20 @@ module.exports = {
     'webpack-dev-server/client?http://localhost:8080',
     'webpack/hot/only-dev-server',
     CLIENT + '/components/index.jsx',
-    ],
+  ],
   output: {
     path: BUILD,
     filename: 'bundle.js',
-    publicPath: '/public/'
+    publicPath: '/public/',
   },
   plugins: [
     new webpack.HotModuleReplacementPlugin(),
-    new webpack.NoErrorsPlugin()
+    new webpack.NoErrorsPlugin(),
   ],
   devServer: {
-      hot: true,
-      port: 8080,
-      contentBase: './src/client'
+    hot: true,
+    port: 8080,
+    contentBase: './src/client',
   },
   module: {
     loaders: [
@@ -30,12 +30,12 @@ module.exports = {
         test: /\.jsx?$/,
         exclude: /node_modules/,
         loaders: ['react-hot', 'babel?presets[]=es2015,presets[]=react'],
-        include: path.join(__dirname, 'src')
+        include: path.join(__dirname, 'src'),
       },
       {
         test: /\.css$/,
-        loader: 'style-loader!css-loader'
-      }
-    ]
-  }
+        loader: 'style-loader!css-loader',
+      },
+    ],
+  },
 };

@@ -18,4 +18,8 @@ EventButton.propTypes = {
   getEvents: React.PropTypes.func.isRequired,
 };
 
+EventButton.defaultProps = {
+  artist: '',
+};
+
 export default EventButton;

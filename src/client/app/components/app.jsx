@@ -101,7 +101,7 @@ class App extends Component {
 
 
   render() {
-    const { trackInfo, events } = this.state;
+    const { trackInfo, events, targetArtist, getEvents, artistName } = this.state;
     const tracks = trackInfo.map(track => (
       <Preview
         key={track.spotUrl}
@@ -115,8 +115,8 @@ class App extends Component {
 
     const eventButton = (
       <EventButton
-        artist={this.state.targetArtist}
-        getEvents={this.getEvents}
+        artist={targetArtist}
+        getEvents={getEvents}
       />
     );
 
@@ -128,13 +128,13 @@ class App extends Component {
     if (Array.isArray(events) && events.length < 1) {
       eventItems = (
         <div id="no-events">
-        Bummer, {this.state.targetArtist} has not announced any upcoming shows
+        Bummer, {targetArtist} has not announced any upcoming shows
         </div>
       );
     } else if (Array.isArray(events)) {
-      eventItems = events.map((event, i) => (
+      eventItems = events.map(event => (
         <EventItem
-          key={i}
+          key={event.tixUrl}
           title={event.title}
           date={event.date}
           avail={event.avail}
@@ -148,12 +148,12 @@ class App extends Component {
         <div id="top-bar">
           <h1>Spotifind</h1>
           <form id="search-form" onSubmit={this.newSearch}>
-            <label>
+            <label htmlFor="search-form">
               SEARCH FOR AN ARTIST:
               <input
                 id="search-box"
                 type="text"
-                value={this.state.artistName}
+                value={artistName}
                 onChange={this.newArtist}
               />
             </label>
